@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Logging.Abstractions;
-using System.Diagnostics.Metrics;
-
-namespace Renci.SshNet
+﻿namespace Renci.SshNet
 {
     public class Program
     {
