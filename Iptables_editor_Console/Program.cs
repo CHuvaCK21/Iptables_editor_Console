@@ -1,4 +1,6 @@
-﻿namespace Renci.SshNet
+﻿using IPTables.Net.Iptables;
+
+namespace Renci.SshNet
 {
     public class Program
     {
@@ -93,12 +95,16 @@
             Console.WriteLine("Введите пароль: ");
             CheckPwd();
             int port = int.Parse(portdef); // 
-            using (var client = new SshClient(host, port, username, password))
-                {
-                    client.Connect();
-                    using SshCommand cmd = client.RunCommand("touch test");
-                    Console.WriteLine(cmd.Result); // "Hello World!\n"
-                }
+            var client = new SshClient(host, port, username, password);
+            client.Connect();
+            var stream = client.CreateShellStream("xterm", 80, 24, 1024, 768, 1024);
+            string text = stream.Read();
+            Console.WriteLine(text);
+            System.Threading.Thread.Sleep(1500);
+            stream.WriteLine("sudo -p 'PASSWORD:' iptables-save > iptables.txt");
+            stream.WriteLine(password);
+            System.Threading.Thread.Sleep(1000);
+            client.Disconnect();
         }
     }
 }
