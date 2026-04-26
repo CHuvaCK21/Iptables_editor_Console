@@ -98,8 +98,6 @@ namespace Renci.SshNet
             var client = new SshClient(host, port, username, password);
             client.Connect();
             var stream = client.CreateShellStream("xterm", 80, 24, 1024, 768, 1024);
-            string text = stream.Read();
-            Console.WriteLine(text);
             System.Threading.Thread.Sleep(1500);
             stream.WriteLine("sudo -p 'PASSWORD:' iptables-save > iptables.txt");
             stream.WriteLine(password);
